@@ -1,0 +1,13 @@
+{
+  "@@locale": "es",
+  "welcome_message": "Bienvenido a Mi Aplicación",
+  "good_morning": "¡Buenos días, Usuario!",
+  "theme_switcher": "Interruptor de Tema",
+  "language": "Idioma",
+  "profile": "Perfil",
+  "app_info": "Información de la Aplicación",
+  "home": "Inicio",
+  "settings": "Configuraciones",
+  "notifications": "Notificaciones",
+  "help": "Ayuda"
+}

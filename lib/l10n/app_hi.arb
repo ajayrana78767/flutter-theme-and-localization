@@ -1,0 +1,13 @@
+{
+  "@@locale": "hi",
+  "welcome_message": "मेरे ऐप में आपका स्वागत है",
+  "good_morning": "सुप्रभात, उपयोगकर्ता!",
+  "theme_switcher": "थीम स्विचर",
+  "language": "भाषा",
+  "profile": "प्रोफ़ाइल",
+  "app_info": "ऐप जानकारी",
+  "home": "होम",
+  "settings": "सेटिंग्स",
+  "notifications": "सूचनाएं",
+  "help": "मदद"
+}
