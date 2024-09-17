@@ -9,5 +9,7 @@
   "home": "होम",
   "settings": "सेटिंग्स",
   "notifications": "सूचनाएं",
-  "help": "मदद"
+  "help": "मदद",
+  "todays_date": "आज की तारीख: {date}",
+  "theme_changed": "थीम_बदला गया"
 }

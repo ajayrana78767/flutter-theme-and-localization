@@ -9,5 +9,7 @@
   "home": "Home",
   "settings": "Settings",
   "notifications": "Notifications",
-  "help": "Help"
+  "help": "Help",
+  "todays_date": "Today's Date: {date}",
+  "theme_changed": "Theme Changed!"
 }

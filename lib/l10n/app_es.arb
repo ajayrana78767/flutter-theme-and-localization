@@ -9,5 +9,7 @@
   "home": "Inicio",
   "settings": "Configuraciones",
   "notifications": "Notificaciones",
-  "help": "Ayuda"
+  "help": "Ayuda",
+  "todays_date": "Fecha de hoy: {date}",
+  "theme_changed": "tema_cambiado"
 }

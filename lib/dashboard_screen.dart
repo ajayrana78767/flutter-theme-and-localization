@@ -1,10 +1,13 @@
+// ignore_for_file: unnecessary_const, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:flutter_theme_and_localization/language.dart';
+import 'package:flutter_theme_and_localization/languages_constant.dart';
+import 'package:flutter_theme_and_localization/main.dart';
 import 'package:flutter_theme_and_localization/provider/locale_provider.dart';
 import 'package:flutter_theme_and_localization/provider/theme_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -14,62 +17,65 @@ class DashboardScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to My App'),
+        title: Text(
+          translation(context).welcome_message,
+        ),
         actions: [
           IconButton(
-            icon: Icon(themeProvider.themeMode == ThemeMode.light
-                ? Icons.brightness_6
-                : Icons.brightness_7),
+            icon: AnimatedSwitcher(
+              duration: Duration(milliseconds: 500),
+              child: Icon(
+                themeProvider.themeMode == ThemeMode.light
+                    ? Icons.brightness_6
+                    : Icons.brightness_7,
+                key: ValueKey(themeProvider.themeMode),
+              ),
+            ),
             onPressed: () {
-              themeProvider.toggleTheme(); // Toggle theme using provider
+              themeProvider.toggleTheme();
             },
           ),
-          // IconButton(
-          //   icon: Icon(Icons.language),
-          //   onPressed: () {
-          //     localeProvider.toggleLocale(); // Toggle language using provider
-          //   },
-          // ),
-          Container(
-            child: DropdownButton<Language>(
-              underline: const SizedBox(),
-              icon: const Icon(Icons.language),
-              onChanged: (bool){},
-              items: Language.languageList()
-                  .map<DropdownMenuItem<Language>>(
-                    (e) => DropdownMenuItem<Language>(
-                      value: e,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                            e.flag,
-                            style: const TextStyle(fontSize: 30),
-                          ),
-                          Text(e.name)
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
+          PopupMenuButton<Language>(
+            icon: const Icon(Icons.language),
+            onSelected: (Language? language) async {
+              if (language != null) {
+                Locale _locale = await setLocale(language.languageCode);
+                MyApp.setLocale(context, _locale);
+              }
+            },
+            itemBuilder: (context) {
+              return Language.languageList().map((Language e) {
+                return PopupMenuItem<Language>(
+                  value: e,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(e.flag, style: const TextStyle(fontSize: 30)),
+                      Text(e.name),
+                    ],
+                  ),
+                );
+              }).toList();
+            },
           ),
         ],
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Text(
-              'Good Morning, User!',
+              translation(context).good_morning,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           Text(
-            'Today\'s Date: ${DateFormat.yMMMd().format(DateTime.now())}',
-            style: TextStyle(fontSize: 16),
+            translation(context)
+                .todays_date(DateFormat.yMMMd().format(DateTime.now())),
+            // 'Today\'s Date: ${DateFormat.yMMMd().format(DateTime.now())}',
+            style: const TextStyle(fontSize: 16),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
@@ -77,30 +83,32 @@ class DashboardScreen extends StatelessWidget {
               crossAxisSpacing: 16.0,
               mainAxisSpacing: 16.0,
               children: [
-                _buildFeatureCard('Theme Switcher', Icons.brightness_6),
-                _buildFeatureCard('Language', Icons.language),
-                _buildFeatureCard('Profile', Icons.person),
-                _buildFeatureCard('App Info', Icons.info),
+                _buildFeatureCard(
+                    translation(context).theme_switcher, Icons.brightness_6),
+                _buildFeatureCard(
+                    translation(context).language, Icons.language),
+                _buildFeatureCard(translation(context).profile, Icons.person),
+                _buildFeatureCard(translation(context).app_info, Icons.info),
               ],
             ),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notifications',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.help),
             label: 'Help',
           ),
@@ -120,16 +128,20 @@ class DashboardScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 48),
-            SizedBox(height: 16),
-            Text(
-              title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 48),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
     );
