@@ -83,12 +83,14 @@ class DashboardScreen extends StatelessWidget {
               crossAxisSpacing: 16.0,
               mainAxisSpacing: 16.0,
               children: [
+                _buildFeatureCard(translation(context).theme_switcher,
+                    Icons.brightness_6, context),
                 _buildFeatureCard(
-                    translation(context).theme_switcher, Icons.brightness_6),
+                    translation(context).language, Icons.language, context),
                 _buildFeatureCard(
-                    translation(context).language, Icons.language),
-                _buildFeatureCard(translation(context).profile, Icons.person),
-                _buildFeatureCard(translation(context).app_info, Icons.info),
+                    translation(context).profile, Icons.person, context),
+                _buildFeatureCard(
+                    translation(context).app_info, Icons.info, context),
               ],
             ),
           ),
@@ -121,26 +123,79 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(String title, IconData icon) {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 48),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  Widget _buildFeatureCard(String title, IconData icon, BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    // Define light and dark mode gradients
+    final lightGradient = LinearGradient(
+      colors: [Colors.blue.shade200, Colors.purple.shade200],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
+
+    final darkGradient = LinearGradient(
+      colors: [Colors.grey.shade900, Colors.black],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
+
+    // Choose gradient based on the current theme
+    final currentGradient = themeProvider.themeMode == ThemeMode.light
+        ? lightGradient
+        : darkGradient;
+
+    return GestureDetector(
+      onTap: () {
+        // Add a meaningful action or transition
+      },
+      child: Card(
+        elevation: 6.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient:
+                currentGradient, // Use the current gradient based on the theme
+            boxShadow: [
+              BoxShadow(
+                color: themeProvider.themeMode == ThemeMode.light
+                    ? Colors.grey.shade300
+                    : Colors.black54,
+                offset: Offset(4, 4),
+                blurRadius: 15,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: themeProvider.themeMode == ThemeMode.light
+                    ? Colors.white
+                    : Colors.black,
+                offset: Offset(-4, -4),
+                blurRadius: 15,
+                spreadRadius: 1,
               ),
             ],
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, size: 48, color: Colors.white),
+                  const SizedBox(height: 16),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
