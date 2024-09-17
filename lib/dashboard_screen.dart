@@ -38,7 +38,6 @@ class DashboardScreen extends StatelessWidget {
                   duration: Duration(seconds: 2),
                 ),
               );
-
             },
           ),
           PopupMenuButton<Language>(
@@ -102,28 +101,43 @@ class DashboardScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: 'Help',
-          ),
-        ],
-        currentIndex: 0,
-        onTap: (index) {
-          // Handle tab navigation
+      bottomNavigationBar: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return BottomNavigationBar(
+            currentIndex: 0, // You can manage the index state to switch tabs.
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: themeProvider.themeMode == ThemeMode.light
+                ? Colors.white
+                : Colors.black, // Background adapts to theme.
+            selectedItemColor: themeProvider.themeMode == ThemeMode.light
+                ? Colors.blue // Select color for light theme
+                : Colors.purpleAccent, // Select color for dark theme
+            unselectedItemColor: themeProvider.themeMode == ThemeMode.light
+                ? Colors.grey // Unselected color for light theme
+                : Colors.grey.shade600, // Unselected color for dark theme
+            elevation: 8.0, // Adds a bit of depth.
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: 'Notifications',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.help),
+                label: 'Help',
+              ),
+            ],
+            onTap: (index) {
+              // Handle tab navigation and state update logic here.
+            },
+          );
         },
       ),
     );
