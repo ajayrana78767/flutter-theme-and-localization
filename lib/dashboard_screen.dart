@@ -1,5 +1,4 @@
 // ignore_for_file: unnecessary_const, avoid_unnecessary_containers
-
 import 'package:flutter/material.dart';
 import 'package:flutter_theme_and_localization/language.dart';
 import 'package:flutter_theme_and_localization/languages_constant.dart';
@@ -33,6 +32,13 @@ class DashboardScreen extends StatelessWidget {
             ),
             onPressed: () {
               themeProvider.toggleTheme();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(translation(context).theme_changed),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+
             },
           ),
           PopupMenuButton<Language>(
